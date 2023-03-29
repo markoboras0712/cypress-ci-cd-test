@@ -12,8 +12,5 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           build: npm run build
-          start: "npm run start"
-          wait-on: "http://localhost:8888"
-          # let's see if the Test Runner handles url in the config
-          # https://github.com/cypress-io/cypress/issues/5466
-          config: baseUrl=http://localhost:8888
+          start: npm run start
+       
