@@ -4,9 +4,6 @@ on:
     branches:
       - release/*
       - hotfix/*
-    branches-ignore:
-      - main
-      - develop
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
