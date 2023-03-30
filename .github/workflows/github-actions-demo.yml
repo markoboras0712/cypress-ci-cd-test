@@ -1,12 +1,12 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Staging Release
+run-name: ${{ github.actor }} has triggered release 🚀
 on:
   push:
     branches:
       - release/*
       - hotfix/*
 jobs:
-  Explore-GitHub-Actions:
+  Cypress-CI-CD:
     runs-on: self-hosted
     steps:
       - run: echo "🎉 This self-hosted job was automatically triggered by a ${{ github.event_name }} event."
