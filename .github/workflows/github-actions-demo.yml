@@ -1,5 +1,5 @@
 name: Staging Release
-run-name: ${{ github.actor }} has triggered run of cypress tests on release on staging 🚀
+run-name: Cypress CI/CD - Staging Release
 on:
   push:
     branches:
@@ -9,6 +9,7 @@ jobs:
   setup-build-environment:
     runs-on: self-hosted
     steps:
+      - run: echo "🚀 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
       - run: echo "🎉 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
       - run: echo "🐧 This job is now running on a runner with name ${{ runner.name }} on ${{ runner.os }} server."
       - name: Check out repository code
@@ -46,7 +47,7 @@ jobs:
   ui-chrome-web-tests:
     timeout-minutes: 15
     runs-on: self-hosted
-    needs: cypress-install
+    needs: generate-env-file
     steps:
       - name: Cypress Chrome Web Tests
         uses: cypress-io/github-action@v5.5.1
