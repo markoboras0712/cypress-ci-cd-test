@@ -8,6 +8,15 @@ jobs:
   generate-env-file:
     runs-on: self-hosted
     steps:
+      - name: Generate email address
+        id: generate-email
+        run: |
+          EMAIL="cypress+ci+$(openssl rand -hex 4)@gmail.com"
+          echo "Generated email: $EMAIL"
+          echo "EMAIL=$EMAIL" >> $GITHUB_ENV
+      - name: Use email address
+        run: |
+            echo "Using email: $EMAIL"
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@v1.2.2
