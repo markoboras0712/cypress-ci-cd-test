@@ -39,7 +39,7 @@ jobs:
           wait-on: "http://localhost:8888"
           wait-on-timeout: 120
           browser: chrome
-          group: "UI - Chrome"
+          group: "UI - Web Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
           # let's see if the Test Runner handles url in the config
@@ -73,7 +73,7 @@ jobs:
           wait-on: "http://localhost:8888"
           wait-on-timeout: 120
           browser: chrome
-          group: "UI - Chrome"
+          group: "UI - Mobile Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
           # let's see if the Test Runner handles url in the config
