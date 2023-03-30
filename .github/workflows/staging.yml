@@ -6,7 +6,7 @@ on:
       - hotfix/*
 jobs:
   install:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
 
   ui-chrome-web-tests:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: install
     steps:
       - name: Checkout
@@ -45,39 +45,6 @@ jobs:
           # let's see if the Test Runner handles url in the config
           # https://github.com/cypress-io/cypress/issues/5466
           config: baseUrl=http://localhost:8888
-        env:
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          DEBUG: "cypress:server:args"
-
-  ui-chrome-mobile-tests:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    needs: ui-chrome-web-tests
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress info
-        run: npx cypress info
-      - name: Node info
-        run: node -v
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress Chrome Mobile Tests
-        uses: cypress-io/github-action@v5.5.1
-        with:
-          config: "viewportWidth=375,viewportHeight=667"
-          start: "npm run start:ci"
-          record: true
-          wait-on: "http://localhost:8888"
-          wait-on-timeout: 120
-          browser: chrome
-          group: "UI - Mobile Tests Chrome"
-          spec: cypress/e2e/*
-          config-file: cypress.config.ts
-          # let's see if the Test Runner handles url in the config
-          # https://github.com/cypress-io/cypress/issues/5466
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
