@@ -80,13 +80,13 @@ jobs:
         with:
           start: "yarn start:ci"
           record: true
-          wait-on: "http://192.168.1.11:8888"
+          wait-on: "http://192.168.99.160:8888"
           wait-on-timeout: 120
           browser: chrome
           group: "UI - Web Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
-          config: baseUrl=http://192.168.1.11:8888
+          config: baseUrl=http://192.168.99.160:8888
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
