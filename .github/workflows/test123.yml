@@ -1,0 +1,35 @@
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+on:
+  push:
+    branches:
+      - release/*
+jobs:
+  generate-env-file:
+    runs-on: self-hosted
+    steps:
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "cypress.env.json"
+          json: ${{ secrets.MY_JSON }}
+          dir: "."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Print cypress.ev.json
+        run: |
+          cat cypress.env.json
+        working-directory: ${{ github.workspace }}
+
+      - name: Test JSON file creation
+        run: |
+          if [ -f "file.json" ]; then
+            echo "File created successfully"
+            cat file.json
+            cat credentials.json
+          else
+            echo "File creation failed"
+          fi
+        working-directory: .
