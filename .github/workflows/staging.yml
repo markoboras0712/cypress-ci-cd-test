@@ -3,9 +3,11 @@ run-name: Cypress CI/CD - Staging Release
 on:
   push:
     branches:
-      - develop
-      # - release/*
-      # - hotfix/*
+      - release/*
+      - hotfix/*
+env:
+  FREE_USER_EMAIL: ""
+
 jobs:
   setup-build-environment:
     runs-on: self-hosted
@@ -26,43 +28,54 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-  # cypress-install:
-  #   needs: setup-build-environment
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Cypress install
-  #       uses: cypress-io/github-action@v5
-  #       with:
-  #         runTests: false
-  #     - run: yarn types
-  #     - run: yarn lint
-  #     - run: yarn install
+  cypress-install:
+    needs: setup-build-environment
+    runs-on: self-hosted
+    steps:
+      - name: Cypress install
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
+      - run: yarn types
+      - run: yarn lint
+      - run: yarn install
 
   generate-cypress-env:
     runs-on: self-hosted
+    needs: cypress-install
     steps:
-      - name: Generate JSON
-        id: generate-json
+      - name: Generate email address
+        id: generate-email
         run: |
-          if [ -f "cypress.env.json" ]; then
-           echo "Creating cypress.env.json file"
-           echo '{
-             "userFree": {
-               "email": "cypress+ci+'$(openssl rand -hex 4)'@gmail.com",
-               "password": "123456"
-             },
-             "userPaid": {
-               "email": "cypress+48@test.test",
-               "password": "suncica"
-             },
-             "userRelease": {
-               "email": "cypress+40@test.test",
-               "password": "suncica"
-             }
-           }' > cypress.env.json
-           else
-           echo "Cypress.env.json already exists"
-           cat cypress.env.json
+          FREE_USER_EMAIL="cypress+ci+$(openssl rand -hex 4)@gmail.com"
+          echo "Generated email: $FREE_USER_EMAIL"
+          echo "FREE_USER_EMAIL=$FREE_USER_EMAIL" >> $GITHUB_ENV
+      - name: Use email address
+        run: |
+          echo "Using email: $FREE_USER_EMAIL"
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "cypress.env.json"
+          json: '"userFree":{{"email": "${{ env.FREE_USER_EMAIL }}", "password":"123456"}}'
+          dir: "."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Print cypress.ev.json
+        run: |
+          cat cypress.env.json
+        working-directory: ${{ github.workspace }}
+
+      - name: Test JSON file creation
+        run: |
+          if [ -f "file.json" ]; then
+            echo "File created successfully"
+            cat file.json
+            cat credentials.json
+          else
+            echo "File creation failed"
           fi
         working-directory: .
 
