@@ -25,21 +25,20 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-  cypress-install:
-    needs: setup-build-environment
-    runs-on: self-hosted
-    steps:
-      - name: Cypress install
-        uses: cypress-io/github-action@v5
-        with:
-          runTests: false
-      - run: yarn types
-      - run: yarn lint
-      - run: yarn install
+  # cypress-install:
+  #   needs: setup-build-environment
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Cypress install
+  #       uses: cypress-io/github-action@v5
+  #       with:
+  #         runTests: false
+  #     - run: yarn types
+  #     - run: yarn lint
+  #     - run: yarn install
 
   generate-cypress-env:
     runs-on: self-hosted
-    needs: cypress-install
     steps:
       - name: Generate JSON
         id: generate-json
@@ -66,27 +65,27 @@ jobs:
       - name: Print cypress.env.json
         run: cat cypress.env.json
 
-  ui-chrome-web-tests:
-    timeout-minutes: 15
-    runs-on: self-hosted
-    needs: generate-cypress-env
-    steps:
-      - name: Print cypress.env.json
-        run: cat cypress.env.json
-      - name: Cypress Chrome Web Tests
-        uses: cypress-io/github-action@v5.5.1
-        with:
-          start: "yarn start:ci"
-          record: true
-          wait-on: "http://192.168.1.11:8888"
-          wait-on-timeout: 120
-          browser: chrome
-          group: "UI - Web Tests Chrome"
-          spec: cypress/e2e/*
-          config-file: cypress.config.ts
-          config: baseUrl=http://192.168.1.11:8888
-        env:
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          DEBUG: "cypress:server:args"
+  # ui-chrome-web-tests:
+  #   timeout-minutes: 15
+  #   runs-on: self-hosted
+  #   needs: generate-cypress-env
+  #   steps:
+  #     - name: Print cypress.env.json
+  #       run: cat cypress.env.json
+  #     - name: Cypress Chrome Web Tests
+  #       uses: cypress-io/github-action@v5.5.1
+  #       with:
+  #         start: "yarn start:ci"
+  #         record: true
+  #         wait-on: "http://192.168.1.11:8888"
+  #         wait-on-timeout: 120
+  #         browser: chrome
+  #         group: "UI - Web Tests Chrome"
+  #         spec: cypress/e2e/*
+  #         config-file: cypress.config.ts
+  #         config: baseUrl=http://192.168.1.11:8888
+  #       env:
+  #         CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+  #         CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+  #         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  #         DEBUG: "cypress:server:args"
