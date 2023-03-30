@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - release/*
+env:
+  FREE_USER_EMAIL: ""
 jobs:
   generate-env-file:
     runs-on: self-hosted
