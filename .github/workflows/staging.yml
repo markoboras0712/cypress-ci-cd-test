@@ -58,7 +58,7 @@ jobs:
         uses: jsdaniell/create-json@v1.2.2
         with:
           name: "cypress.env.json"
-          json: '"userFree":{{"email": "${{ env.FREE_USER_EMAIL }}", "password":"123456"}}'
+          json: '"userFree":{{"email": "${{ env.FREE_USER_EMAIL }}", "password":"123456"},"userPaid":{"email": "cypress+48@test.test", password: "suncica"}, "userRelease":{"emaill": "cypress+40@test.test", "password": "suncica"}}'
           dir: "."
       - name: List files in the repository
         run: |
@@ -67,17 +67,6 @@ jobs:
         run: |
           cat cypress.env.json
         working-directory: ${{ github.workspace }}
-
-      - name: Test JSON file creation
-        run: |
-          if [ -f "file.json" ]; then
-            echo "File created successfully"
-            cat file.json
-            cat credentials.json
-          else
-            echo "File creation failed"
-          fi
-        working-directory: .
 
   # ui-chrome-web-tests:
   #   timeout-minutes: 15
