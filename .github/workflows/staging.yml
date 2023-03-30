@@ -2,8 +2,7 @@ name: staging
 on:
   push:
     branches:
-      - release/*
-      - hotfix/*
+      - develop
 jobs:
   install:
     runs-on: self-hosted
