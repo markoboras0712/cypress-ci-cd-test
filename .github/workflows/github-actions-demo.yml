@@ -42,7 +42,8 @@ jobs:
     needs: cypress-install
     steps:
       - name: Generate cypress.env.json file
-        run: bash generate-env-file.sh
+        run: ./../generate-cypress.env-file.sh
+        shell: bash
 
   ui-chrome-web-tests:
     timeout-minutes: 15
