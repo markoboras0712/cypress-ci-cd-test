@@ -13,12 +13,17 @@ jobs:
       - run: echo "🐧 This job is now running on a runner with name ${{ runner.name }} on ${{ runner.os }} server."
       - name: Check out repository code
         uses: actions/checkout@v3
+      - name: Setup Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
   cypress-install:
     needs: setup-build-environment
     runs-on: self-hosted
@@ -29,6 +34,7 @@ jobs:
           runTests: false
       - run: yarn types
       - run: yarn lint
+
   ui-chrome-web-tests:
     timeout-minutes: 15
     runs-on: self-hosted
