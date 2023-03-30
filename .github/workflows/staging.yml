@@ -62,8 +62,11 @@ jobs:
            else
            echo "Cypress.env.json already exists"
           fi
+        working-directory: .
       - name: Print cypress.env.json
         run: cat cypress.env.json
+        working-directory: .
+
 
   # ui-chrome-web-tests:
   #   timeout-minutes: 15
