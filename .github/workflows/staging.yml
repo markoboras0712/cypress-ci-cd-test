@@ -1,22 +1,11 @@
 name: staging
-
 on:
   push:
     branches:
       - release/*
       - hotfix/*
-
 jobs:
-  start-local-server:
-    runs-on: self-hosted
-    steps:
-      - name: Start local server
-        run: ./start_local_server.sh
-      - name: Wait for server to start
-        run: sleep 10s
-
-  run-tests:
-    needs: start-local-server
+  install:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,20 +15,23 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           runTests: false
+      - run: yarn types
+      - run: yarn lint
 
-      - name: Wait for Cypress install
-        run: sleep 10s
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Typescript check
-        run: yarn types
-
-      - name: Lint check
-        run: yarn lint
-
-      - name: Run Chrome Web Tests
+  ui-chrome-web-tests:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress info
+        run: npx cypress info
+      - name: Node info
+        run: node -v
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress Chrome Web Tests
         uses: cypress-io/github-action@v5.5.1
         with:
           start: "npm run start:ci"
@@ -50,6 +42,8 @@ jobs:
           group: "UI - Web Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
+          # let's see if the Test Runner handles url in the config
+          # https://github.com/cypress-io/cypress/issues/5466
           config: baseUrl=http://localhost:8888
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -57,7 +51,20 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           DEBUG: "cypress:server:args"
 
-      - name: Run Chrome Mobile Tests
+  ui-chrome-mobile-tests:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    needs: ui-chrome-web-tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress info
+        run: npx cypress info
+      - name: Node info
+        run: node -v
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress Chrome Mobile Tests
         uses: cypress-io/github-action@v5.5.1
         with:
           config: "viewportWidth=375,viewportHeight=667"
@@ -69,8 +76,10 @@ jobs:
           group: "UI - Mobile Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
+          # let's see if the Test Runner handles url in the config
+          # https://github.com/cypress-io/cypress/issues/5466
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           DEBUG: "cypress:server:args"
