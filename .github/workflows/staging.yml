@@ -1,27 +1,44 @@
-name: Staging Cypress Tests
+name: Staging Cypress Tests Release
+run-name: Cypress CI/CD - Staging Release
 on:
   push:
     branches:
-      - release/*
-      - hotfix/*
-
+      - develop
 jobs:
-  install:
+  setup-build-environment:
     runs-on: self-hosted
     steps:
-      - name: Checkout
+      - run: echo "🚀 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
+      - run: echo "🎉 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
+      - run: echo "🐧 This job is now running on a runner with name ${{ runner.name }} on ${{ runner.os }} server."
+      - name: Check out repository code
         uses: actions/checkout@v3
+      - name: Setup Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
 
+  cypress-install:
+    needs: setup-build-environment
+    runs-on: self-hosted
+    steps:
       - name: Cypress install
         uses: cypress-io/github-action@v5
         with:
           runTests: false
       - run: yarn types
       - run: yarn lint
+      - run: yarn install
 
   generate-cypress-env:
     runs-on: self-hosted
-    needs: install
+    needs: cypress-install
     steps:
       - name: Generate JSON
         id: generate-json
@@ -51,34 +68,22 @@ jobs:
   ui-chrome-web-tests:
     timeout-minutes: 15
     runs-on: self-hosted
-    needs: install
+    needs: generate-cypress-env
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress info
-        run: npx cypress info
-      - name: Node info
-        run: node -v
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Cypress Chrome Web Tests
         uses: cypress-io/github-action@v5.5.1
         with:
-          start: "npm run start:ci"
+          start: "yarn start:ci"
           record: true
-          wait-on: "http://localhost:8888"
+          wait-on: "http://192.168.1.11:8888"
           wait-on-timeout: 120
           browser: chrome
           group: "UI - Web Tests Chrome"
           spec: cypress/e2e/*
           config-file: cypress.config.ts
-          # let's see if the Test Runner handles url in the config
-          # https://github.com/cypress-io/cypress/issues/5466
-          config: baseUrl=http://localhost:8888
+          config: baseUrl=http://192.168.1.11:8888
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           DEBUG: "cypress:server:args"
-      - name: Print cypress.env.json
-        run: cat cypress.env.json
