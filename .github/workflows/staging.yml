@@ -1,8 +1,10 @@
-name: staging
+name: Staging Cypress Tests
 on:
   push:
     branches:
-      - develop
+      - release/*
+      - hotfix/*
+
 jobs:
   install:
     runs-on: self-hosted
@@ -16,6 +18,35 @@ jobs:
           runTests: false
       - run: yarn types
       - run: yarn lint
+
+  generate-cypress-env:
+    runs-on: self-hosted
+    needs: install
+    steps:
+      - name: Generate JSON
+        id: generate-json
+        run: |
+          if [ -f "cypress.env.json" ]; then
+           echo "Creating cypress.env.json file"
+           echo '{
+             "userFree": {
+               "email": "cypress+ci+'$(openssl rand -hex 4)'@gmail.com",
+               "password": "123456"
+             },
+             "userPaid": {
+               "email": "cypress+48@test.test",
+               "password": "suncica"
+             },
+             "userRelease": {
+               "email": "cypress+40@test.test",
+               "password": "suncica"
+             }
+           }' > cypress.env.json
+           else
+           echo "Cypress.env.json already exists"
+          fi
+      - name: Print cypress.env.json
+        run: cat cypress.env.json
 
   ui-chrome-web-tests:
     timeout-minutes: 15
@@ -49,3 +80,5 @@ jobs:
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           DEBUG: "cypress:server:args"
+      - name: Print cypress.env.json
+        run: cat cypress.env.json

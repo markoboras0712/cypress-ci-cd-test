@@ -1,5 +1,5 @@
 name: Staging Release
-run-name: Env Shell Script
+run-name: Create cypress.env.json FILE
 on:
   push:
     branches:
