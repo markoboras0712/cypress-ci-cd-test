@@ -11,18 +11,18 @@ jobs:
       - name: Generate email address
         id: generate-email
         run: |
-          EMAIL="cypress+ci+$(openssl rand -hex 4)@gmail.com"
-          echo "Generated email: $EMAIL"
-          echo "EMAIL=$EMAIL" >> $GITHUB_ENV
+          FREE_USER_EMAIL="cypress+ci+$(openssl rand -hex 4)@gmail.com"
+          echo "Generated email: $FREE_USER_EMAIL"
+          echo "FREE_USER_EMAIL=$FREE_USER_EMAIL" >> $GITHUB_ENV
       - name: Use email address
         run: |
-            echo "Using email: $EMAIL"
+            echo "Using email: $FREE_USER_EMAIL"
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@v1.2.2
         with:
           name: "cypress.env.json"
-          json: '"userFree":{{"email":"cypress+ci+`$(openssl rand -hex 4)`@gmail.com", "password":"123456"}}'
+          json: '"userFree":{{"email": $FREE_USER_EMAIL, "password":"123456"}}'
           dir: "."
       - name: List files in the repository
         run: |
