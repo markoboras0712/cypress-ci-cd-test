@@ -13,7 +13,7 @@ jobs:
         uses: jsdaniell/create-json@v1.2.2
         with:
           name: "cypress.env.json"
-          json: ${{ secrets.MY_JSON }}
+          json: '{"username": "test", "password": "test"}'
           dir: "."
       - name: List files in the repository
         run: |
