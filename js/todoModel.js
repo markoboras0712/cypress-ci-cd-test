@@ -6,7 +6,7 @@ var app = app || {}
 
   let Utils = app.Utils
 
-  // Generic "model" object. You can use whatever
+  // Generic "model" object. You can use whartever
   // framework you want. For this application it
   // may not even be worth separating this logic
   // out, but we do this to demonstrate one way to
