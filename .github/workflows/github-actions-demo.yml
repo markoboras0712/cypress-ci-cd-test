@@ -29,3 +29,32 @@ jobs:
           runTests: false
       - run: yarn types
       - run: yarn lint
+  ui-chrome-web-tests:
+    timeout-minutes: 15
+    runs-on: self-hosted
+    needs: cypress-install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress info
+        run: npx cypress info
+      - name: Node info
+        run: node -v
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress Chrome Web Tests
+        uses: cypress-io/github-action@v5.5.1
+        with:
+          start: "npm run start:ci"
+          record: true
+          wait-on: "http://localhost:8888"
+          wait-on-timeout: 120
+          browser: chrome
+          group: "UI - Web Tests Chrome"
+          spec: cypress/e2e/*
+          config-file: cypress.config.ts
+        env:
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          DEBUG: "cypress:server:args"
