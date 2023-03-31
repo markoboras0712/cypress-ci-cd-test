@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $1
+ls -la
 if [ -f "cypress.env.json" ]; then
   echo "Creating cypress.env.json file"
   echo '{
@@ -18,5 +20,5 @@ if [ -f "cypress.env.json" ]; then
   }' > cypress.env.json
 else
   echo "Cypress.env.json already exists"
-  cat cypress.env.json
+  # cat cypress.env.json
 fi
