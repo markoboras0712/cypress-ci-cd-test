@@ -1,7 +1,9 @@
 name: Print Repository Contents
 
-on: [push]
-
+on:
+    push:
+      branches:
+        - develop
 jobs:
   print_contents:
     runs-on: ubuntu-latest
