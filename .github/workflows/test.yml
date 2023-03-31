@@ -10,5 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Where am I
+        run: pwd
       - name: List files in scripts directory
         run: ls -l ./.github/scripts/test.sh
