@@ -13,6 +13,11 @@ jobs:
       - run: echo "🚀 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
       - run: echo "🎉 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
       - run: echo "🐧 This job is now running on a runner with name ${{ runner.name }} on ${{ runner.os }} server."
+      - name: Set secret as environment variable
+        run: echo "::set-env name=MY_SECRET::${{ secrets.CYPRESS_RECORD_KEY }}"
+
+      - name: Check secret value
+        run: echo "Secret value is $MY_SECRET"
       - run: echo "🐧 secrets ${{secrets}}"
       - run: echo "🐧 secrets project id ${{secrets.CYPRESS_PROJECT_ID}}"
       - run: echo "🐧 secrets record key ${{secrets.CYPRESS_RECORD_KEY}}"
