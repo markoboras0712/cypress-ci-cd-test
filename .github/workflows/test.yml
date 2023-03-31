@@ -10,6 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Run multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+      - name: Run script from file
+        run: sh ./.github/test.sh
       - name: Where am I
         run: pwd
       - name: List files
