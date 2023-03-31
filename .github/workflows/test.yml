@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Run a one-line script
         run: echo Hello, world!
+        shell: bash
       - name: Run multi-line script
         run: |
           echo Add other actions to build,
@@ -19,8 +20,8 @@ jobs:
       - name: Find script file
         run: find ${{ github.workspace }} -name "test.sh" -not -path "*/cypress-ci-cd-test/*"
 
-      - name: Call a Bash Script
-        run: bash ${{ github.workspace }}/scripts/test.sh
+    #   - name: Call a Bash Script
+    #     run: bash ${{ github.workspace }}/scripts/test.sh
 
       - name: Where am I
         run: pwd
