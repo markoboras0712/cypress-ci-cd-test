@@ -20,4 +20,11 @@ jobs:
       - name: Run Script
         run: |
           cd ${{ github.workspace }}/.github/scripts
-          sh test.sh
+          sh generate-json.sh
+      - name: Run Script
+        run: ./.github/scripts/test.sh
+        shell: bash
+      - name: Print Repository Contents
+        run: |
+          cd ${{ github.workspace }}
+          ls -la
