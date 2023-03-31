@@ -28,21 +28,21 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-  # cypress-install:
-  #   needs: setup-build-environment
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Cypress install
-  #       uses: cypress-io/github-action@v5
-  #       with:
-  #         runTests: false
-  #     - run: yarn types
-  #     - run: yarn lint
-  #     - run: yarn install
+  cypress-install:
+    needs: setup-build-environment
+    runs-on: self-hosted
+    steps:
+      - name: Cypress install
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
+      - run: yarn types
+      - run: yarn lint
+      - run: yarn install
 
   generate-cypress-env:
     runs-on: self-hosted
-    needs: setup-build-environment
+    needs: cypress-install
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
