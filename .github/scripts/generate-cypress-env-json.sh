@@ -9,12 +9,12 @@ ls -la
 # Check if the 'cypress.env.json' file does not exist
 if [ ! -f "cypress.env.json" ]; then
     echo "Creating cypress.env.json file"
-    : '
-    Create a new "cypress.env.json" file with the following content:
-    OpenSSL's "rand" function generates a random hexadecimal string using,
-    and uses it to create a unique email address for testing purposes.
-    The email address follows the format "cypress+ci+<random_hex>@gmail.com".
-    '
+    
+    # Create a new 'cypress.env.json' file with the following content
+    # Open sll rand generates a random hexadecimal string using OpenSSL's 'rand' function,
+    # and uses it to create a unique email address for testing purposes.
+    # The email address follows the format 'cypress+ci+<random_hex>@gmail.com'.
+    
     echo '{
         "userFree": {
             "email": "cypress+ci+'$(openssl rand -hex 4)'@gmail.com",
