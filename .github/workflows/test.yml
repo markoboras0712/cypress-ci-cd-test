@@ -10,24 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Print Repository Contents
+        run: |
+          cd ${{ github.workspace }}
+          ls -la
+
       - name: Run a one-line script
         run: echo Hello, world!
-        shell: bash
-      - name: Run a script from file repo
-        run: sh ./test.sh
-        shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
       - name: Run multi-line script
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+        shell: bash
+
       - name: Find script file
-        run: find ${{ github.workspace }} -name "test.sh" -not -path "*/cypress-ci-cd-test/*"
-
-      #   - name: Call a Bash Script
-      #     run: bash ${{ github.workspace }}/scripts/test.sh
-
-      - name: Where am I
-        run: pwd
-      - name: List files
-        run: |
-          ls -la ${{ github.workspace }}
+        run: find ${{ github.workspace }} -name "test.sh"
