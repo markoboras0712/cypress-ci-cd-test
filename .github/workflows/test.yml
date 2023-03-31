@@ -13,7 +13,8 @@ jobs:
       - name: Where am I
         run: pwd
       - name: List files
-        run: ls
+        run: |
+          ls ${{ github.workspace }}
       - name: Run test script
         run: bash .github/scripts/test.sh
       - name: List files in scripts directory
