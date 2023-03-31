@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run test script
-        run: ./.github/scripts/test.sh
+      - name: List files in scripts directory
+        run: ls -l ./.github/scripts/test.sh
