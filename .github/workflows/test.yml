@@ -3,7 +3,7 @@ name: Example workflow
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
           cd ${{ github.workspace }}
           ls -la
 
-      - name: Run a one-line script
+      - name: Run a one-line scriptt
         run: echo Hello, world!
       - name: Run multi-line script
         run: |
