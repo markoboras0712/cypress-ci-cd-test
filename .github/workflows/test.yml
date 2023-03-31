@@ -13,19 +13,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: List files in workspace
-        run: chmod +x ./.github/print.sh ${{ github.workspace }}
+        run: chmod +x ./.github/test.sh
       
-      - name: Run Script
-        run: |
-          cd ${{ github.workspace }}/.github/scripts
-          sh generate-json.sh
-      - name: Grant execute permission to script
-        run: chmod +x ./.github/scripts/test.sh
+    #   - name: Run Script
+    #     run: |
+    #       cd ${{ github.workspace }}/.github/scripts
+    #       sh generate-json.sh
+    #   - name: Grant execute permission to script
+    #     run: chmod +x ./.github/scripts/test.sh
 
-      - name: Run Script
-        run: ./.github/scripts/test.sh
-        shell: bash
-      - name: Print Repository Contents
-        run: |
-          cd ${{ github.workspace }}
-          ls -la
+    #   - name: Run Script
+    #     run: ./.github/scripts/test.sh
+    #     shell: bash
+    #   - name: Print Repository Contents
+    #     run: |
+    #       cd ${{ github.workspace }}
+    #       ls -la
