@@ -17,13 +17,7 @@ jobs:
           cd ${{ github.workspace }}
           ls -la
 
-      - name: Run a one-line scriptt
-        run: echo Hello, world!
-      - name: Run multi-line script
+      - name: Run Script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-        shell: bash
-
-      - name: Find script file
-        run: find ${{ github.workspace }} -name "test.sh"
+          cd ${{ github.workspace }}/.github/scripts
+          sh test.sh
