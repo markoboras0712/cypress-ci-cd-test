@@ -16,9 +16,11 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      - name: Run script from file
-        run: ./.github/test.sh
-        shell: bash
+      - name: Find script file
+        run: find . -name test.sh
+      #   - name: Run script from file
+      #     run: ./.github/test.sh
+      #     shell: bash
 
       - name: Where am I
         run: pwd
