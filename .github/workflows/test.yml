@@ -14,5 +14,7 @@ jobs:
         run: pwd
       - name: List files
         run: ls
+      - name: Run test script
+        run: bash .github/scripts/test.sh
       - name: List files in scripts directory
         run: ls -l ./.github/scripts/test.sh
