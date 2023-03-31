@@ -1,0 +1,14 @@
+name: Example workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run test script
+        run: ./.github/scripts/test.sh
