@@ -2,6 +2,9 @@ name: Print Repository Contents
 
 on: [push]
 
+env:
+  PORT_NAME: "8888"
+
 jobs:
   print_contents:
     runs-on: ubuntu-latest
@@ -11,7 +14,7 @@ jobs:
       - name: Kill other processes on port 8888
         run: |
           chmod +x ./.github/scripts/kill-processes.sh
-          ./.github/scripts/kill-processes.sh ${{ github.workspace }}
+          ./.github/scripts/kill-processes.sh ${{ env.PORT_NAME }}
         shell: bash
 
       - name: Print Repository Contents
