@@ -3,8 +3,9 @@ run-name: Cypress CI/CD - Staging Release
 on:
   push:
     branches:
-      - release/*
-      - hotfix/*
+      # - release/*
+      # - hotfix/*
+      - develop
 env:
   FREE_USER_EMAIL: ""
 
@@ -36,9 +37,9 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           runTests: false
-      - run: yarn types
-      - run: yarn lint
-      - run: yarn install
+      - run: npm run types
+      - run: npm run lint
+      - run: npm install
 
   generate-cypress-env:
     runs-on: self-hosted
@@ -65,7 +66,7 @@ jobs:
       - name: Cypress Chrome Web Tests
         uses: cypress-io/github-action@v5.5.1
         with:
-          start: "yarn start:ci"
+          start: "npm run start:ci"
           record: true
           wait-on: "http://localhost:8888/"
           wait-on-timeout: 120
