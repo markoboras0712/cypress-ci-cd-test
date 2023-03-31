@@ -3,8 +3,9 @@ run-name: Cypress CI/CD - Staging Release
 on:
   push:
     branches:
-      - release/*
-      - hotfix/*
+      # - release/*
+      # - hotfix/*
+      - develop
 env:
   PORT_NAME: "8888"
 

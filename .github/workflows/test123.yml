@@ -1,0 +1,19 @@
+name: TEST
+run-name: TESTT
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  setup-build-environment:
+    runs-on: self-hosted
+    environment: DEVELOPMENT
+    steps:
+      - run: echo "🚀 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
+      - run: echo "🎉 This self-hosted job was automatically triggered by a ${{ github.event_name }} event on a ${{github.ref_name}}."
+      - run: echo "🐧 This job is now running on a runner with name ${{ runner.name }} on ${{ runner.os }} server."
+      - run: echo "🐧 secrets ${{secrets}}"
+      - run: echo "🐧 secrets project id ${{secrets.CYPRESS_PROJECT_ID}}"
+      - run: echo "🐧 secrets record key ${{secrets.CYPRESS_RECORD_KEY}}"
+      - run: echo "🐧 secrets github token ${{secrets.GITHUB_TOKEN}}"
