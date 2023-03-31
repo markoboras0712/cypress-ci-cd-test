@@ -17,9 +17,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: Find script file
-        run: |
-          cd ${{ github.workspace }}
-          find . -name "test.sh"
+        run: find ${{ github.workspace }} -name "test.sh" -not -path "*/cypress-ci-cd-test/*"
 
       - name: Call a Bash Script
         run: bash ${{ github.workspace }}/scripts/test.sh
@@ -29,7 +27,3 @@ jobs:
       - name: List files
         run: |
           ls -la ${{ github.workspace }}
-    #   - name: Run test script
-    #     run: bash .github/scripts/test.sh
-    #   - name: List files in scripts directory
-    #     run: ls -l ./.github/scripts/test.sh
