@@ -18,4 +18,5 @@ if [ -f "cypress.env.json" ]; then
   }' > cypress.env.json
 else
   echo "Cypress.env.json already exists"
+  cat cypress.env.json
 fi
