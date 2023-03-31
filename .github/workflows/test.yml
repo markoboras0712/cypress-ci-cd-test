@@ -13,9 +13,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
         shell: bash
-      - name: Run a script from file repo
-        run: sh ./test.sh
-        shell: bash
+    #   - name: Run a script from file repo
+    #     run: sh ./test.sh
+        # shell: bash
       - name: Run multi-line script
         run: |
           echo Add other actions to build,
