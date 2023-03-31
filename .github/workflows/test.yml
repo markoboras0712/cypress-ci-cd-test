@@ -20,9 +20,9 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           find . -name "test.sh"
-      #   - name: Run script from file
-      #     run: ./.github/test.sh
-      #     shell: bash
+
+      - name: Call a Bash Script
+        run: bash ${{ github.workspace }}/scripts/test.sh
 
       - name: Where am I
         run: pwd
