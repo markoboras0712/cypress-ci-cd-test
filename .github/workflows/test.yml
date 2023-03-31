@@ -12,10 +12,14 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: List files in workspace
+      - name: Call test script
         run: |
           chmod +x ./.github/scripts/test.sh
           ./.github/scripts/test.sh
+      - name: Call print script
+        run: |
+          chmod +x ./.github/scripts/print.sh
+          ./.github/scripts/print.sh ${{ github.workspace }}
 
     #   - name: Run Script
     #     run: |
