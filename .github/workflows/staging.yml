@@ -44,8 +44,6 @@ jobs:
     runs-on: self-hosted
     needs: cypress-install
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
       - name: Generate cypress env json file
         run: |
           chmod +x ./.github/scripts/generate-cypress-env-json.sh
