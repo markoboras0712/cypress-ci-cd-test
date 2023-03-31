@@ -17,11 +17,9 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: Find script file
-        run: find . -name test.sh
-      - name: Find shell script file
-        run: find ./scripts -name test.sh
-      - name: LS
-        run: ls ./.github/scripts/test.sh
+        run: |
+          cd ${{ github.workspace }}
+          find . -name "test.sh"
       #   - name: Run script from file
       #     run: ./.github/test.sh
       #     shell: bash
