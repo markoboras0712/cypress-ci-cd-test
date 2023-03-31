@@ -12,14 +12,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Call test script
+      - name: Generate cypress env json file
         run: |
-          chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh
-      - name: Call print script
-        run: |
-          chmod +x ./.github/scripts/print.sh
-          ./.github/scripts/print.sh ${{ github.workspace }}
+          chmod +x ./.github/scripts/generate-cypress-env-json.sh
+          ./.github/scripts/generate-cypress-env-json.sh ${{ github.workspace }}
+        shell: bash
 
       - name: Print Repository Contents
         run: |
