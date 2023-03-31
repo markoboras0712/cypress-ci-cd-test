@@ -68,7 +68,7 @@ jobs:
   ui-chrome-web-tests:
     timeout-minutes: 15
     runs-on: self-hosted
-    needs: generate-cypress-env
+    needs: kill-port-8888
     steps:
       - name: Print cypress.env.json
         run: cat cypress.env.json
